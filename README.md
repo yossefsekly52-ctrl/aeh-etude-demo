@@ -14,5 +14,6 @@ Maquette interactive de l'espace client « Mon étude technique » d'Aides Équi
 | radiateur1 | [Radiateur_maison.JPG](https://commons.wikimedia.org/wiki/File:Radiateur_maison.JPG) | Numéro 1963 | CC BY-SA 3.0 |
 | radiateur2 | [Bathroom-radiator.jpg](https://commons.wikimedia.org/wiki/File:Bathroom-radiator.jpg) | Magnovvig | CC BY-SA 4.0 |
 | collecteur | [Heizkreisverteiler.jpg](https://commons.wikimedia.org/wiki/File:Heizkreisverteiler.jpg) | Tetris L | CC BY-SA 3.0 |
+| ballon | [Installation_d'un_chauffe-eau_à_Grenoble,.jpg](https://commons.wikimedia.org/wiki/File:Installation_d%27un_chauffe-eau_%C3%A0_Grenoble,.jpg) | ROMI38000 | CC BY-SA 4.0 |
 
 Les photos sont recadrées et redimensionnées. Les photos sous CC BY-SA restent sous la même licence.
