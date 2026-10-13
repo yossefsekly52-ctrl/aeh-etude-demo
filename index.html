@@ -554,6 +554,8 @@ p { margin: 0; }
 .spin { width: 26px; height: 26px; border-radius: 50%; border: 3px solid #d6e3f3; border-top-color: var(--blue); animation: rot .8s linear infinite; display: block; }
 @keyframes rot { to { transform: rotate(360deg); } }
 .saved .upload__bar { width: min(70%, 260px); }
+/* Photo d'exemple qui s'adapte à la hauteur visible : photo et bouton tiennent ensemble à l'écran */
+.ex--fit img { max-height: max(150px, calc(var(--vvh, 100dvh) - 410px)); }
 /* Choix (question radiateurs) */
 .choice { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 72px; padding: 12px 16px; border: 1.5px solid var(--line); border-radius: 18px; background: var(--surface); font-size: 17.5px; font-weight: 650; color: var(--navy); text-align: left; transition: border-color var(--ease), background var(--ease); }
 .choice > svg { width: 20px; height: 20px; margin-left: auto; color: var(--slate); flex: none; }
@@ -737,9 +739,9 @@ const SHOTS = [
   { id: 'linky', step: 'compteur', ill: 'linky', title: 'Votre compteur Linky', instr: 'Le compteur vert, écran bien visible.', skip: 'Je ne le trouve pas', help: 'Il se trouve souvent dans l’entrée, le garage, ou dans un coffret à l’extérieur de la maison.' },
   { id: 'chaudiere', step: 'chaudiere', ill: 'chaudiere', title: 'Votre chaudière', instr: 'Toute la chaudière, de face.', skip: 'Je n’ai pas de chaudière', help: 'Souvent dans la cuisine, la buanderie, le garage ou le sous-sol. Si elle est dans un placard, ouvrez simplement la porte.' },
   { id: 'piece', step: 'chaudiere', ill: 'piece', title: 'La pièce de la chaudière', instr: 'Reculez pour montrer toute la pièce.', help: 'Cette photo nous montre la place disponible autour de la chaudière.' },
-  { id: 'exterieur', step: 'exterieur', ill: 'facade', title: 'L’extérieur de votre maison', instr: 'Prenez une photo de l’arrière de votre maison, si possible du côté où se trouve votre chaudière actuelle. Cela permettra à notre équipe d’étudier le futur emplacement de votre pompe à chaleur.',
-    cta: 'Photographier l’extérieur', camHint: 'Votre maison, avec un peu de jardin', other: 'L’arrière n’est pas accessible ?',
-    help: 'Photographiez simplement votre maison, avec un peu de jardin ou de cour. Vous n’avez pas à choisir l’emplacement : notre équipe s’en charge.' },
+  { id: 'exterieur', step: 'exterieur', ill: 'facade', title: 'L’extérieur de votre maison', instr: 'Photographiez l’arrière de votre maison, si possible du côté où se trouve votre chaudière.', fit: true,
+    cta: 'Prendre ma photo', camHint: 'Votre maison, avec un peu de jardin', other: 'L’arrière n’est pas accessible ?',
+    help: 'Cette photo permettra à notre équipe d’étudier le futur emplacement de votre pompe à chaleur. Photographiez simplement votre maison, avec un peu de jardin ou de cour : vous n’avez pas à choisir l’emplacement.' },
   { id: 'radiateur1', step: 'radiateurs', ill: 'radiateur', title: 'Un radiateur', instr: 'Le modèle le plus courant chez vous, en entier.', help: 'Choisissez un radiateur de la pièce principale.', when: rad },
   { id: 'radiateur2', step: 'radiateurs', ill: 'radiateur2', title: 'Un autre radiateur', instr: 'Seulement s’il est différent du premier.', same: 'Ils sont tous identiques', help: 'Par exemple un sèche-serviettes, ou un radiateur d’une autre forme.', when: rad, optional: true },
   { id: 'collecteur', step: 'radiateurs', ill: 'collecteur', title: 'Le boîtier du plancher chauffant', instr: 'Là où arrivent les tuyaux, souvent dans un placard.', skip: 'Je ne le trouve pas', help: 'On l’appelle aussi « collecteur » ou « nourrice ». Ouvrez simplement la porte du placard, ne démontez rien.', when: sol },
@@ -1003,7 +1005,7 @@ V.shot = () => {
     <h1 class="flow__title">${esc(sh.title)}</h1>
     <p class="flow__sub">${esc(sh.instr)}</p>
     ${pages.length ? `<div class="pages">${pages.map(p => `<span class="pages__item">${thumb(p)}<i>${ic('check', 3)}</i></span>`).join('')}<span class="pages__label">${pages.length} ${sh.doc ? (pages.length > 1 ? 'pages enregistrées' : 'page enregistrée') : (pages.length > 1 ? 'photos enregistrées' : 'photo enregistrée')}</span></div>`
-      : `<figure class="ex">${exampleHtml(sh)}</figure>`}
+      : `<figure class="ex ${sh.fit ? 'ex--fit' : ''}">${exampleHtml(sh)}</figure>`}
     ${sh.doc ? `<button class="why" data-act="docInfo">${ic('lock')}<span>${esc(sh.why)} <u>Protection de vos documents</u></span></button>` : ''}
   </div>
   <div class="actions">
