@@ -10,7 +10,7 @@ Maquette interactive de l'espace client « Mon étude technique » d'Aides Équi
 | linky | [Compteur_Linky_tout_juste_installé_(France).jpg](https://commons.wikimedia.org/wiki/File:Compteur_Linky_tout_juste_install%C3%A9_(France).jpg) | Benoît Prieur | CC0 |
 | chaudiere | [Wandhängende Kombi-Gastherme von Junkers mit unrerer Verkleidung aus Edelstahlblech, Wetzstrasse, Erfurt, Thüringen.jpg](https://commons.wikimedia.org/wiki/File:Wandh%C3%A4ngende_Kombi-Gastherme_von_Junkers_mit_unrerer_Verkleidung_aus_Edelstahlblech,_Wetzstrasse,_Erfurt,_Th%C3%BCringen.jpg) | Kai Kemmann | CC BY-SA 4.0 |
 | piece | [Wall_mounted_boiler_in_kitchen.jpg](https://commons.wikimedia.org/wiki/File:Wall_mounted_boiler_in_kitchen.jpg) | Turbojet | CC BY-SA 4.0 |
-| exterieur | [Air_Source_Heat_Pump_-_Vailliant_aroTherm_Plus_on_a_terraced_house.jpg](https://commons.wikimedia.org/wiki/File:Air_Source_Heat_Pump_-_Vailliant_aroTherm_Plus_on_a_terraced_house.jpg) | Southend-on-Sea Borough Council, UK | CC0 |
+| exterieur | [En ço de Borie Jardin.JPG](https://commons.wikimedia.org/wiki/File:En_%C3%A7o_de_Borie_Jardin.JPG) | Darreenvt | CC BY-SA 4.0 |
 | radiateur1 | [Radiateur_maison.JPG](https://commons.wikimedia.org/wiki/File:Radiateur_maison.JPG) | Numéro 1963 | CC BY-SA 3.0 |
 | radiateur2 | [Bathroom-radiator.jpg](https://commons.wikimedia.org/wiki/File:Bathroom-radiator.jpg) | Magnovvig | CC BY-SA 4.0 |
 | collecteur | [Heizkreisverteiler.jpg](https://commons.wikimedia.org/wiki/File:Heizkreisverteiler.jpg) | Tetris L | CC BY-SA 3.0 |
