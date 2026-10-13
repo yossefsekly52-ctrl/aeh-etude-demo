@@ -556,6 +556,23 @@ p { margin: 0; }
 .saved .upload__bar { width: min(70%, 260px); }
 /* Photo d'exemple qui s'adapte à la hauteur visible : photo et bouton tiennent ensemble à l'écran */
 .ex--fit img { max-height: max(150px, calc(var(--vvh, 100dvh) - 410px)); }
+.ex--whole img { object-fit: contain; background: #3a3530; } /* l'équipement reste entier quand la photo rétrécit */
+/* Case « ballon intégré à la chaudière » */
+.check-card { display: flex; gap: 12px; align-items: center; min-height: 60px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 16px; background: var(--surface); font-size: 16px; font-weight: 600; color: var(--navy); line-height: 1.35; cursor: pointer; transition: border-color var(--ease), background var(--ease); }
+.check-card input { width: 24px; height: 24px; accent-color: var(--blue); flex: none; margin: 0; }
+.check-card.is-on { border-color: var(--blue); background: var(--blue-pale); }
+.ex--fit { transition: opacity var(--ease); }
+.flow:has(.check-card.is-on) .ex { opacity: .35; }
+/* Encadré rassurant avant l'accord */
+.actions--solid { background: var(--canvas); box-shadow: 0 -10px 24px rgba(14,46,73,.07); border-top: 1px solid var(--line-soft); }
+.reassure { border-radius: 16px; background: var(--green-pale); border: 1px solid var(--green-line); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.reassure b { display: flex; gap: 8px; align-items: center; color: var(--green-dark); font-size: 16px; }
+.reassure b svg { width: 20px; height: 20px; }
+.reassure ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.reassure li { display: flex; gap: 8px; align-items: flex-start; font-size: 15px; color: var(--ink); line-height: 1.4; }
+.reassure li svg { width: 16px; height: 16px; color: var(--green); flex: none; margin-top: 2px; }
+.check--big { font-size: 15.5px; padding: 4px 0; }
+.check--big input { width: 26px; height: 26px; }
 /* Choix (question radiateurs) */
 .choice { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 72px; padding: 12px 16px; border: 1.5px solid var(--line); border-radius: 18px; background: var(--surface); font-size: 17.5px; font-weight: 650; color: var(--navy); text-align: left; transition: border-color var(--ease), background var(--ease); }
 .choice > svg { width: 20px; height: 20px; margin-left: auto; color: var(--slate); flex: none; }
@@ -569,7 +586,7 @@ p { margin: 0; }
 .step__ok svg { width: 16px; height: 16px; }
 /* Envoi */
 .recap2 { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); overflow: hidden; }
-.recap2__row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 0; border-bottom: 1px solid var(--line-soft); background: transparent; text-align: left; width: 100%; min-height: 64px; }
+.recap2__row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border: 0; border-bottom: 1px solid var(--line-soft); background: transparent; text-align: left; width: 100%; min-height: 54px; }
 .recap2__row:last-child { border-bottom: 0; }
 .recap2__row b { flex: 1; min-width: 0; font-size: 16.5px; color: var(--navy); }
 .recap2__ic { width: 30px; height: 30px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; flex: none; }
@@ -728,6 +745,7 @@ Object.assign(ILL, {
 const STEPS = [
   { id: 'compteur', cat: 'Compteur', title: 'Compteur électrique', icon: 'bolt' },
   { id: 'chaudiere', cat: 'Chaudière', title: 'Chaudière', icon: 'flame' },
+  { id: 'ballon', cat: 'Ballon', title: 'Ballon d’eau chaude', icon: 'drop' },
   { id: 'exterieur', cat: 'Extérieur', title: 'Extérieur de la maison', icon: 'house' },
   { id: 'radiateurs', cat: 'Radiateurs', title: 'Radiateurs', icon: 'rad',
     q: { key: 'emetteurs', label: 'Chez vous, la chaleur vient…', opts: [['radiateurs', 'Des radiateurs', 'rad'], ['plancher', 'Du sol, par un plancher chauffant', 'house'], ['les2', 'Des deux', 'plus']] } },
@@ -739,7 +757,9 @@ const SHOTS = [
   { id: 'linky', step: 'compteur', ill: 'linky', title: 'Votre compteur Linky', instr: 'Le compteur vert, écran bien visible.', skip: 'Je ne le trouve pas', help: 'Il se trouve souvent dans l’entrée, le garage, ou dans un coffret à l’extérieur de la maison.' },
   { id: 'chaudiere', step: 'chaudiere', ill: 'chaudiere', title: 'Votre chaudière', instr: 'Toute la chaudière, de face.', skip: 'Je n’ai pas de chaudière', help: 'Souvent dans la cuisine, la buanderie, le garage ou le sous-sol. Si elle est dans un placard, ouvrez simplement la porte.' },
   { id: 'piece', step: 'chaudiere', ill: 'piece', title: 'La pièce de la chaudière', instr: 'Reculez pour montrer toute la pièce.', help: 'Cette photo nous montre la place disponible autour de la chaudière.' },
-  { id: 'ballon', step: 'chaudiere', ill: 'ballon', title: 'Votre ballon d’eau chaude', instr: 'Le ballon en entier, s’il y en a un.', none: 'Je n’ai pas de ballon', help: 'Un grand cylindre blanc, souvent dans un placard, la buanderie, le garage ou près de la chaudière. Si votre eau chaude vient directement de la chaudière, choisissez « Je n’ai pas de ballon ».' },
+  { id: 'ballon', step: 'ballon', ill: 'ballon', title: 'Votre ballon d’eau chaude', instr: 'Le ballon en entier, s’il y en a un.', fit: true, whole: true,
+    integrated: 'Mon eau chaude est produite par ma chaudière (pas de ballon séparé)',
+    help: 'Un grand cylindre blanc, souvent dans un placard, la buanderie, le garage ou près de la chaudière. Si votre eau chaude vient directement de la chaudière, cochez simplement la case : aucune photo n’est nécessaire.' },
   { id: 'exterieur', step: 'exterieur', ill: 'facade', title: 'L’extérieur de votre maison', instr: 'Photographiez l’arrière de votre maison, si possible du côté où se trouve votre chaudière.', fit: true,
     cta: 'Prendre ma photo', camHint: 'Votre maison, avec un peu de jardin', other: 'L’arrière n’est pas accessible ?',
     help: 'Cette photo permettra à notre équipe d’étudier le futur emplacement de votre pompe à chaleur. Photographiez simplement votre maison, avec un peu de jardin ou de cour : vous n’avez pas à choisir l’emplacement.' },
@@ -998,6 +1018,7 @@ V.shot = () => {
   const sh = shotById(S.params.id);
   const rec = S.shots[sh.id];
   const redo = S.complement.includes(sh.id);
+  const integre = S.params.integre ?? (rec?.reason === 'integre');
   const pages = redo ? [] : (rec?.status === 'done' ? rec.photos : []);
   return `<div class="screen">${flowbar(sh.extra ? null : sh.step)}
   <div class="flow">
@@ -1005,14 +1026,16 @@ V.shot = () => {
     <h1 class="flow__title">${esc(sh.title)}</h1>
     <p class="flow__sub">${esc(sh.instr)}</p>
     ${pages.length ? `<div class="pages">${pages.map(p => `<span class="pages__item">${thumb(p)}<i>${ic('check', 3)}</i></span>`).join('')}<span class="pages__label">${pages.length} ${sh.doc ? (pages.length > 1 ? 'pages enregistrées' : 'page enregistrée') : (pages.length > 1 ? 'photos enregistrées' : 'photo enregistrée')}</span></div>`
-      : `<figure class="ex ${sh.fit ? 'ex--fit' : ''}">${exampleHtml(sh)}</figure>`}
+      : `<figure class="ex ${sh.fit ? 'ex--fit' : ''} ${sh.whole ? 'ex--whole' : ''}">${exampleHtml(sh)}</figure>`}
+    ${sh.integrated && !pages.length ? `<label class="check-card ${integre ? 'is-on' : ''}"><input type="checkbox" id="integre" ${integre ? 'checked' : ''}><span>${esc(sh.integrated)}</span></label>` : ''}
     ${sh.doc ? `<button class="why" data-act="docInfo">${ic('lock')}<span>${esc(sh.why)} <u>Protection de vos documents</u></span></button>` : ''}
   </div>
   <div class="actions">
     ${pages.length ? `<button class="btn btn--primary" data-act="nextShot">Continuer${ic('arrow')}</button>
       <div class="links"><button class="link-btn" data-act="takePhoto">${sh.doc ? 'Ajouter une page' : 'Ajouter une photo'}</button></div>`
+    : integre ? `<button class="btn btn--primary" data-act="integreOk">Continuer${ic('arrow')}</button>`
     : `<button class="btn btn--primary" data-act="takePhoto">${ic('camera')}${esc(sh.cta || 'Prendre une photo')}</button>
-      <div class="links"><button class="link-btn" data-act="gallery">${sh.doc ? 'Importer un PDF ou une photo' : 'Importer une photo'}</button>${sh.same ? `<button class="link-btn" data-act="same">${esc(sh.same)}</button>` : sh.none ? `<button class="link-btn" data-act="none">${esc(sh.none)}</button>` : sh.other ? `<button class="link-btn link-btn--quiet" data-act="otherSide">${esc(sh.other)}</button>` : sh.doc ? '' : `<button class="link-btn link-btn--quiet" data-act="cant">${esc(sh.skip || 'Je ne peux pas')}</button>`}</div>`}
+      <div class="links"><button class="link-btn" data-act="gallery">${sh.doc ? 'Importer un PDF ou une photo' : 'Importer une photo'}</button>${sh.same ? `<button class="link-btn" data-act="same">${esc(sh.same)}</button>` : sh.none ? `<button class="link-btn" data-act="none">${esc(sh.none)}</button>` : sh.other ? `<button class="link-btn link-btn--quiet" data-act="otherSide">${esc(sh.other)}</button>` : sh.doc || sh.integrated ? '' : `<button class="link-btn link-btn--quiet" data-act="cant">${esc(sh.skip || 'Je ne peux pas')}</button>`}</div>`}
   </div>
   <input type="file" id="f-cam" accept="image/*" capture="environment" hidden>
   <input type="file" id="f-gal" accept="${sh.doc ? 'image/*,application/pdf' : 'image/*'}" ${sh.doc ? 'multiple' : ''} hidden>
@@ -1083,9 +1106,19 @@ V.resume = () => {
       return `<button class="recap2__row" data-act="openStep" data-v="${st.id}"><span class="recap2__ic ${miss ? 'is-miss' : ''}">${ic(miss ? 'clock' : 'check', 2.6)}</span><b>${esc(st.title)}</b><span class="recap2__thumbs">${imgs.map(thumb).join('')}</span></button>`;
     }).join('')}</div>
     ${missing.length ? `<p class="small muted">${missing.length} élément${missing.length > 1 ? 's' : ''} pourr${missing.length > 1 ? 'ont' : 'a'} être ajouté${missing.length > 1 ? 's' : ''} plus tard. Vous pouvez envoyer maintenant.</p>` : ''}
-    <label class="check"><input type="checkbox" id="consent" ${S.consent ? 'checked' : ''}><span>J’accepte que ces photos et documents servent à préparer mon projet et mon dossier d’aides. <button type="button" class="inline-link" data-act="docInfo">En savoir plus</button></span></label>
+    <div class="reassure">
+      <b>${ic('shield')}Vos informations sont protégées</b>
+      <ul>
+        <li>${ic('check', 2.6)}Utilisées uniquement pour votre projet et votre dossier d’aides</li>
+        <li>${ic('check', 2.6)}Jamais revendues, jamais utilisées pour de la publicité</li>
+        <li>${ic('check', 2.6)}Visibles seulement par votre conseiller et notre équipe</li>
+        <li>${ic('check', 2.6)}Supprimées sur simple demande</li>
+      </ul>
+    </div>
   </div>
-  <div class="actions"><button class="btn btn--green" data-act="submit" id="submit" ${S.consent ? '' : 'disabled'}>${ic('send')}Envoyer mon dossier</button></div></div>`;
+  <div class="actions actions--solid">
+    <label class="check check--big"><input type="checkbox" id="consent" ${S.consent ? 'checked' : ''}><span>J’accepte que mes photos et documents soient utilisés pour préparer mon projet. <button type="button" class="inline-link" data-act="docInfo">En savoir plus</button></span></label>
+    <button class="btn btn--green" data-act="submit" id="submit" ${S.consent ? '' : 'disabled'}>${ic('send')}Envoyer mon dossier</button></div></div>`;
 };
 
 V.fin = () => `<div class="screen">
@@ -1289,6 +1322,7 @@ function afterRender() {
   if (S.screen === 'code') { const i = document.getElementById('acc'); i.addEventListener('input', () => { let v = i.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); if (v.length > 3) v = v.slice(0, 3) + '-' + v.slice(3); if (v.length > 8) v = v.slice(0, 8) + '-' + v.slice(8); i.value = v.slice(0, 13); }); }
   if (S.screen === 'resume') document.getElementById('consent').addEventListener('change', e => { S.consent = e.target.checked; document.getElementById('submit').disabled = !S.consent; save(); });
   if (S.screen === 'shot') {
+    document.getElementById('integre')?.addEventListener('change', e => { S.params.integre = e.target.checked; save(); const y = document.querySelector('.screen').scrollTop; render(); document.querySelector('.screen').scrollTop = y; });
     document.getElementById('f-cam').addEventListener('change', async e => { const f = e.target.files?.[0]; if (f) gotPhoto(await processFile(f)); });
     document.getElementById('f-gal').addEventListener('change', async e => {
       // Documents : plusieurs pages d'un coup. Les suivantes s'enregistrent à la suite.
@@ -1412,6 +1446,7 @@ document.addEventListener('click', async e => {
     case 'nextShot': if (QUEUE.length && S.screen === 'saved') { PENDING = null; return gotPhoto(QUEUE.shift()); } return advanceAfter(S.params.id);
     case 'same': S.shots[S.params.id] = { status: 'na', photos: [], reason: 'identiques' }; logEv('Radiateurs : tous identiques'); save(); return advanceAfter(S.params.id);
     case 'none': S.shots[S.params.id] = { status: 'na', photos: [], reason: 'absent' }; logEv(`« ${shotById(S.params.id).title} » : la cliente n’en a pas`); save(); return advanceAfter(S.params.id);
+    case 'integreOk': S.shots[S.params.id] = { status: 'na', photos: [], reason: 'integre' }; logEv('Eau chaude produite par la chaudière (pas de ballon séparé)'); save(); return advanceAfter(S.params.id);
     case 'cant': return cantSheet();
     case 'otherSide': return sheet(`<h2>Pas de souci</h2><p class="sheet__txt">Photographiez un autre côté de votre maison. Notre équipe étudiera le meilleur emplacement.</p><button class="btn btn--primary btn--sm" data-act="takeOther">${ic('camera')}Photographier un autre côté</button><button class="btn btn--ghost btn--sm" data-act="closeSheet">Fermer</button>`);
     case 'takeOther': closeSheet(); return S.camReal ? document.getElementById('f-cam').click() : go('camera', { id: S.params.id });
@@ -1526,7 +1561,7 @@ function crmMartine() {
   const missing = applicable().filter(s => !isAnswered(s.id) || S.shots[s.id]?.status === 'cant');
   const cells = list.map(s => {
     const r = S.shots[s.id];
-    if (!r || r.status !== 'done') return `<div class="ph"><div class="ph__img"><div class="ph__empty">${S.complement.includes(s.id) ? 'Demandé à la cliente' : !r ? 'En attente' : r.status === 'na' ? (r.reason === 'identiques' ? 'Radiateurs tous identiques' : r.reason === 'absent' ? 'Pas de ballon' : 'Non concerné') : `Pas de photo : ${esc(CANT.find(c => c[0] === r.reason)?.[1].toLowerCase() || '')}`}</div></div><div class="ph__body"><b>${esc(s.title)}</b></div></div>`;
+    if (!r || r.status !== 'done') return `<div class="ph"><div class="ph__img"><div class="ph__empty">${S.complement.includes(s.id) ? 'Demandé à la cliente' : !r ? 'En attente' : r.status === 'na' ? (r.reason === 'identiques' ? 'Radiateurs tous identiques' : r.reason === 'absent' ? 'Pas de ballon' : r.reason === 'integre' ? 'Eau chaude produite par la chaudière' : 'Non concerné') : `Pas de photo : ${esc(CANT.find(c => c[0] === r.reason)?.[1].toLowerCase() || '')}`}</div></div><div class="ph__body"><b>${esc(s.title)}</b></div></div>`;
     return r.photos.map((ph, i) => `<div class="ph"><div class="ph__img">${ph.src ? `<img src="${ph.src}" alt="${esc(s.title)}">` : `<div class="ph__empty">${ph.pdf ? 'PDF' : 'Photo'}</div>`}${S.complement.includes(s.id) ? `<span class="pill pill--warn">Nouvelle photo demandée</span>` : r.crm === 'ok' ? `<span class="pill pill--done">${ic('check', 2.6)}Validée</span>` : r.crm === 'new' ? `<span class="pill pill--current">Nouvelle</span>` : ''}</div>
       <div class="ph__body"><b>${esc(s.title)}${r.photos.length > 1 ? ` · ${s.doc ? 'page' : 'photo'} ${i + 1}` : ''}</b><small>${Math.round(ph.kb || 400)} Ko · reçue ${esc(ph.at || '')}</small>
       <div class="ph__acts"><button class="cbtn" data-crm="ok" data-v="${s.id}">${ic('check', 2.4)}Valider</button><button class="cbtn" data-crm="redo" data-v="${s.id}">${ic('refresh')}Redemander</button></div></div></div>`).join('');
@@ -1598,7 +1633,7 @@ function fitViewport() {
   vv?.addEventListener('scroll', set);
   window.addEventListener('orientationchange', () => setTimeout(set, 250));
   // Le champ actif reste visible au-dessus du clavier
-  document.addEventListener('focusin', e => { if (e.target.matches('input, textarea')) setTimeout(() => e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300); });
+  document.addEventListener('focusin', e => { if (e.target.matches('input:not([type=checkbox]):not([type=radio]):not([type=file]), textarea')) setTimeout(() => e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300); });
 }
 fitViewport();
 async function boot() {
